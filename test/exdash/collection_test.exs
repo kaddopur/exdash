@@ -1,25 +1,33 @@
 defmodule Exdash.CollectionTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
+  use ExCheck
+  alias Exdash.Collection
+  doctest Exdash.Collection
 
   test "map on empty list" do
-    list = []
-    assert list == Exdash.Collection.map([], &(&1))
+    assert [] == Collection.map([], &(&1))
   end
 
-  test "map on list" do
-    list = [1, 2, 3]
-    assert [2, 3, 4] == Exdash.Collection.map(list, &(&1 + 1))
+  property :map_list do
+    addOne = fn n -> n + 1 end
+    for_all n in list(int) do
+      Enum.map(n, addOne) == Collection.map(n, addOne)
+    end
   end
 
   test "map on empty map" do
     map = %{}
-    assert [] = Exdash.Collection.map(map, &(&1))
+    assert [] = Collection.map(map, &(&1))
   end
 
-  test "map on map" do
-    map = %{"a" => 1, "b" => 2}
-    assert [{"a", 2}, {"b", 3}] == Exdash.Collection.map(map, (fn {k, v} ->
-      {k, v + 1}
-    end))
+  test "pmap on empty list" do
+    assert [] == Collection.pmap([], &(&1))
+  end
+
+  property :pmap_list do
+    addOne = fn n -> n + 1 end
+    for_all n in list(int) do
+      assert Collection.map(n, addOne) == Collection.pmap(n, addOne)
+    end
   end
 end

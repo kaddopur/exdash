@@ -10,5 +10,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Package information
 - Coveralls
 - Collections.map
+- ExCheck
 
 [Unreleased]: https://github.com/TFarla/exdash/compare/develop...HEAD
