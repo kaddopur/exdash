@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [0.0.1] - 2016-04-24
 ### Add
 - A Change log
 - Mix files
@@ -13,3 +15,4 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - ExCheck
 
 [Unreleased]: https://github.com/TFarla/exdash/compare/develop...HEAD
+[0.0.1]: https://github.com/TFarla/exdash/compare/0.0.1...HEAD
