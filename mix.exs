@@ -34,7 +34,7 @@ defmodule Exdash.Mixfile do
 
   defp description do
     """
-    A few sentences (a paragraph) describing the project.
+    Lodash implementation for Elixir
     """
   end
 
