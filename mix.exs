@@ -46,6 +46,6 @@ defmodule Exdash.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:excoveralls, "~> 0.5", only: :test}]
+    [{:excoveralls, "~> 0.4", only: :test}]
   end
 end

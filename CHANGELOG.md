@@ -9,5 +9,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Travis integration
 - Package information
 - Coveralls
+- Collections.map
 
 [Unreleased]: https://github.com/TFarla/exdash/compare/develop...HEAD
