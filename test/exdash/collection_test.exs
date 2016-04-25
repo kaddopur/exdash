@@ -5,29 +5,63 @@ defmodule Exdash.CollectionTest do
   doctest Exdash.Collection
 
   test "map on empty list" do
-    assert [] == Collection.map([], &(&1))
+    assert [] == Collection.map([], &addOne/1)
   end
 
   property :map_list do
-    addOne = fn n -> n + 1 end
     for_all n in list(int) do
-      Enum.map(n, addOne) == Collection.map(n, addOne)
+      Enum.map(n, &addOne/1) == Collection.map(n, &addOne/1)
     end
   end
 
   test "map on empty map" do
     map = %{}
-    assert [] = Collection.map(map, &(&1))
+    assert [] = Collection.map(map, &addOne/1)
   end
 
   test "pmap on empty list" do
-    assert [] == Collection.pmap([], &(&1))
+    assert [] == Collection.pmap([], &addOne/1)
   end
 
   property :pmap_list do
-    addOne = fn n -> n + 1 end
     for_all n in list(int) do
-      assert Collection.map(n, addOne) == Collection.pmap(n, addOne)
+      assert Collection.map(n, &addOne/1) == Collection.pmap(n, &addOne/1)
     end
+  end
+
+  test "filter on empty list" do
+    assert [] == Collection.filter([], &addOne/1)
+  end
+
+  property :filter_list do
+    for_all integers in list(int) do
+      integers
+      |> Enum.filter(&isEven/1)
+      |> Kernel.==(Collection.filter(integers, &isEven/1))
+    end
+  end
+
+  test "filter with empty map" do
+    assert [] == Collection.filter(%{}, &isEven/1)
+  end
+
+  test "pfilter with empty list" do
+    assert [] == Collection.pfilter([], &isEven/1)
+  end
+
+  property :pfilter_list do
+    for_all integers in list(int) do
+      integers
+      |> Enum.filter(&isEven/1)
+      |> Kernel.==(Collection.pfilter(integers, &isEven/1))
+    end
+  end
+
+  def addOne(item) do
+    item + 1
+  end
+
+  def isEven(number) do
+    rem(number, 2) == 0
   end
 end
