@@ -40,4 +40,15 @@ defmodule Exdash.Collection do
   def filter(collection, fun) do
     Enum.filter(collection, fun)
   end
+
+  @doc """
+    Same as __Exdash.Collection.filter__ but executed in parallel
+  """
+  def pfilter(collection, fun) do
+    collection
+    |> Stream.map(fn item -> {Task.async(fn -> fun.(item) end), item} end)
+    |> Stream.map(fn {pid, item} -> {Task.await(pid), item} end)
+    |> Stream.filter(fn {bool, _item} -> bool end)
+    |> Enum.map(fn {_bool, item} -> item end)
+  end
 end

@@ -45,6 +45,18 @@ defmodule Exdash.CollectionTest do
     assert [] == Collection.filter(%{}, &isEven/1)
   end
 
+  test "pfilter with empty list" do
+    assert [] == Collection.pfilter([], &isEven/1)
+  end
+
+  property :pfilter_list do
+    for_all integers in list(int) do
+      integers
+      |> Enum.filter(&isEven/1)
+      |> Kernel.==(Collection.pfilter(integers, &isEven/1))
+    end
+  end
+
   def addOne(item) do
     item + 1
   end
