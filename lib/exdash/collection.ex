@@ -27,4 +27,17 @@ defmodule Exdash.Collection do
       end
     end)
   end
+
+
+  @doc """
+    Filters the enumerable, i.e. returns only those elements for which **fun** returns
+    a truthy value.
+
+    ## Examples
+      iex> Enum.filter([1, 2, 3], (fn i -> rem(i, 2) == 0 end))
+      [2]
+  """
+  def filter(collection, fun) do
+    Enum.filter(collection, fun)
+  end
 end
