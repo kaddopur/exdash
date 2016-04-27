@@ -7,8 +7,7 @@ defmodule Exdash.Collection do
       [2, 3, 4]
   """
   def map(collection, fun) do
-    collection
-    |> Enum.map(fun)
+    Enum.map(collection, fun)
   end
 
   @doc """
@@ -45,10 +44,10 @@ defmodule Exdash.Collection do
     Same as __Exdash.Collection.filter__ but executed in parallel
   """
   def pfilter(collection, fun) do
-    collection
-    |> Stream.map(fn item -> {Task.async(fn -> fun.(item) end), item} end)
-    |> Stream.map(fn {pid, item} -> {Task.await(pid), item} end)
-    |> Stream.filter(fn {bool, _item} -> bool end)
-    |> Enum.map(fn {_bool, item} -> item end)
+    results = pmap(collection, fn (item) ->
+        {item, fun.(item)}
+    end)
+
+    for {value, bool} <- results, bool, do: value
   end
 end

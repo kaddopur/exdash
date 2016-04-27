@@ -49,6 +49,11 @@ defmodule Exdash.CollectionTest do
     assert [] == Collection.pfilter([], &isEven/1)
   end
 
+  test "pfilter with map" do
+    map = %{"a" => 1, "b" => 2, "c" => 3}
+    assert [{"b", 2}] == Collection.pfilter(map, &isEven/1)
+  end
+
   property :pfilter_list do
     for_all integers in list(int) do
       integers
@@ -61,6 +66,7 @@ defmodule Exdash.CollectionTest do
     item + 1
   end
 
+  def isEven({_key, number}), do: isEven(number)
   def isEven(number) do
     rem(number, 2) == 0
   end
