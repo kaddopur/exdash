@@ -2,7 +2,9 @@ defmodule Exdash.CollectionTest do
   use ExUnit.Case, async: false
   use ExCheck
   alias Exdash.Collection
+  require Integer
   doctest Exdash.Collection
+  require Logger
 
   test "map on empty list" do
     assert [] == Collection.map([], &addOne/1)
@@ -62,12 +64,44 @@ defmodule Exdash.CollectionTest do
     end
   end
 
+  test "every with empty list" do
+    assert true == Collection.every([], fn -> true end)
+  end
+
+  property :every_with_truthy do
+    for_all numbers in such_that(x in list(int(0, 10)) when length(x) > 0) do
+      Collection.every(numbers, &(&1 > 0)) == true
+    end
+  end
+
+  property :every_with_falsy do
+    for_all numbers in such_that(x in list(int(0, 10)) when length(x) > 0) do
+      Collection.every(numbers, &(&1 < 0)) == false
+    end
+  end
+
+  test "pevery with empty list" do
+    assert true == Collection.pevery([], fn -> true end)
+  end
+
+  property :pevery_with_truthy do
+    for_all numbers in such_that(x in list(int(0, 10)) when length(x) > 0) do
+      Collection.pevery(numbers, &(&1 > 0)) == true
+    end
+  end
+
+  property :pevery_with_falsy do
+    for_all numbers in such_that(x in list(int(0, 10)) when length(x) > 0) do
+      Collection.pevery(numbers, &(&1 < 0)) == false
+    end
+  end
+
   def addOne(item) do
     item + 1
   end
 
   def isEven({_key, number}), do: isEven(number)
   def isEven(number) do
-    rem(number, 2) == 0
+    Integer.is_even(number)
   end
 end

@@ -15,7 +15,7 @@ defmodule Exdash.Collection do
   """
   def pmap(collection, fun) do
     me = self
-    Enum.map(collection, fn (item) ->
+    Enum.map(collection, fn item ->
       spawn_link(fn ->
         send(me, {self, fun.(item)})
       end)
@@ -44,10 +44,43 @@ defmodule Exdash.Collection do
     Same as __Exdash.Collection.filter__ but executed in parallel
   """
   def pfilter(collection, fun) do
-    results = pmap(collection, fn (item) ->
+    results = pmap(collection, fn item ->
         {item, fun.(item)}
     end)
 
     for {value, bool} <- results, bool, do: value
+  end
+
+  @doc """
+    Check if `fun` returns thruthy for all elements of `collection`.
+    Iteration is stopped once the invocation of `fun` returns a falsy value.
+
+    ## Examples
+      iex> Exdash.Collection.every([1, 2, 3], &(&1 > 0))
+      true
+
+      iex> Exdash.Collection.every([-1, 2, 3], &(&1 > 0))
+      false
+  """
+  def every(collection, fun) do
+    do_every(collection, fun, true)
+  end
+
+  defp do_every([], _, true), do: true
+  defp do_every(_, _, false), do: false
+  defp do_every([head|tail], fun, _) do
+    do_every(tail, fun, fun.(head))
+  end
+
+  @doc """
+    Same as `every` but run in parallel
+  """
+  def pevery(collection, fun) do
+    pmap(collection, fn item ->
+      {item, fun.(item)}
+    end)
+    |> every(fn {_, bool} ->
+      bool
+    end)
   end
 end
