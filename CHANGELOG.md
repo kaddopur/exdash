@@ -4,6 +4,16 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.2.0] - 2016-04-27
+### Update
+- documentation for pmap and pfilter
+
+### Add
+- Hex docs
+- Collection.find
+- Collection.every
+- Collection.filter
+
 ## [0.0.1] - 2016-04-24
 ### Add
 - A Change log
@@ -14,5 +24,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Collections.map
 - ExCheck
 
-[Unreleased]: https://github.com/TFarla/exdash/compare/develop...HEAD
-[0.0.1]: https://github.com/TFarla/exdash/compare/0.0.1...HEAD
+[Unreleased]: https://github.com/TFarla/exdash/compare/master...HEAD
+[0.2.0]: https://github.com/TFarla/exdash/compare/0.2.0...HEAD
+[0.0.1]: https://github.com/TFarla/exdash/compare/0.0.1...0.2.0
