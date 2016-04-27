@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - documentation for pmap and pfilter
 
 ### Add
+- Collection.find
 - Collection.every
 - Collection.filter
 

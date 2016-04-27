@@ -96,6 +96,49 @@ defmodule Exdash.CollectionTest do
     end
   end
 
+  test "find with empty list" do
+    default = nil
+    assert default == Collection.find([], default, &(&1))
+  end
+
+  property :find_default do
+    for_all number in int do
+      number == Collection.find([], number, &(&1))
+    end
+  end
+
+  property :find_convenience do
+    for_all numbers in list(int(0, 10)) do
+      find = (fn _ -> true end)
+      Collection.find(numbers, nil, find) == Collection.find(numbers, find)
+    end
+  end
+
+  property :find do
+    for_all numbers in such_that(x in list(int(0, 10)) when length(x) > 0) do
+      default = nil
+      Collection.find(numbers, default, &(&1 > 0)) != default
+    end
+  end
+
+  test "pfind empty list" do
+    default = nil
+    assert default == Collection.pfind([], default, fn -> true end)
+  end
+
+  property :pfind_defaults do
+    for_all numbers in such_that(x in list(int(0, 10)) when length(x) > 0) do
+      Collection.pfind(numbers, 1, &(&1 < -10)) == 1
+    end
+  end
+
+  property :pfind do
+    for_all numbers in such_that(x in list(int(0, 10)) when length(x) > 0) do
+      find = fn number -> number > 0 end
+      Collection.find(numbers, nil, find) == Collection.pfind(numbers, nil, find)
+    end
+  end
+
   def addOne(item) do
     item + 1
   end

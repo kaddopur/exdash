@@ -44,11 +44,7 @@ defmodule Exdash.Collection do
     Same as *Exdash.Collection.filter* but executed in parallel
   """
   def pfilter(collection, fun) do
-    results = pmap(collection, fn item ->
-        {item, fun.(item)}
-    end)
-
-    for {value, bool} <- results, bool, do: value
+    for {value, bool} <- pmap_invoke(collection, fun), bool, do: value
   end
 
   @doc """
@@ -76,11 +72,40 @@ defmodule Exdash.Collection do
     Same as *Exdash.Collection.every* but executed in parallel
   """
   def pevery(collection, fun) do
+    pmap_invoke(collection, fun)
+    |> every(&second/1)
+  end
+
+
+  @doc """
+    Returns the first value of which invoking `fun` equals true.
+    Otherwise return `default`.
+
+    ## Examples
+      iex> Exdash.Collection.find([1, 2, 3], &(&1 > 2))
+      3
+  """
+  def find(collection, default, fun) do
+    Enum.find(collection, default, fun)
+  end
+  def find(collection, fun), do: find(collection, nil, fun)
+
+
+  @doc """
+    Same as *Exdash.Collection.find* but executed in parallel
+  """
+  def pfind(collection, default, fun) do
+    case pmap_invoke(collection, fun) |> find(&second/1) do
+      {item, _} -> item
+      _ -> default
+    end
+  end
+
+  defp pmap_invoke(collection, fun) do
     pmap(collection, fn item ->
       {item, fun.(item)}
     end)
-    |> every(fn {_, bool} ->
-      bool
-    end)
   end
+
+  defp second({_, second}), do: second
 end
