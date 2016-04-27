@@ -3,7 +3,10 @@ defmodule Exdash.Mixfile do
 
   def project do
     [app: :exdash,
-     version: "0.0.1",
+     version: "0.2.0",
+     name: "ExDash",
+     source_url: "https://github.com/TFarla/exdash",
+     homepage_url: "https://github.com/TFarla/exdash",
      description: description,
      package: package,
      elixir: "~> 1.2",
@@ -46,7 +49,8 @@ defmodule Exdash.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:excoveralls, "~> 0.4", only: :test},
+    [{:ex_doc, "~> 0.11", only: :dev},
+     {:excoveralls, "~> 0.4", only: :test},
      {:excheck, "~> 0.3", only: :test},
      {:triq, github: "krestenkrab/triq", only: :test}]
   end

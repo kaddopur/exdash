@@ -1,17 +1,18 @@
 defmodule Exdash.Collection do
   @doc """
-    Returns a `list` where each item is the result of invoking `fun` on each element in the `collection`.
+  Returns a `list` where each item is the result of invoking `fun` on each element in the `collection`.
 
-    ## Examples
+  ## Examples
       iex> Exdash.Collection.map([1, 2, 3], &(&1 + 1))
       [2, 3, 4]
+
   """
   def map(collection, fun) do
     Enum.map(collection, fun)
   end
 
   @doc """
-    Same as *Exdash.Collection.map* but executed in parallel
+  Same as *Exdash.Collection.map* but executed in parallel
   """
   def pmap(collection, fun) do
     me = self
@@ -29,12 +30,13 @@ defmodule Exdash.Collection do
 
 
   @doc """
-    Filters the enumerable, i.e. returns only those elements for which `fun`
-    returns a truthy value.
+  Filters the enumerable, i.e. returns only those elements for which `fun`
+  returns a truthy value.
 
-    ## Examples
+  ## Examples
       iex> Enum.filter([1, 2, 3], &(&1 > 1))
       [2, 3]
+
   """
   def filter(collection, fun) do
     Enum.filter(collection, fun)
@@ -48,15 +50,16 @@ defmodule Exdash.Collection do
   end
 
   @doc """
-    Check if `fun` returns thruthy for all elements of `collection`.
-    Iteration is stopped once the invocation of `fun` returns a falsy value.
+  Check if `fun` returns thruthy for all elements of `collection`.
+  Iteration is stopped once the invocation of `fun` returns a falsy value.
 
-    ## Examples
+  ## Examples
       iex> Exdash.Collection.every([1, 2, 3], &(&1 > 0))
       true
 
       iex> Exdash.Collection.every([-1, 2, 3], &(&1 > 0))
       false
+
   """
   def every(collection, fun) do
     do_every(collection, fun, true)
@@ -69,7 +72,7 @@ defmodule Exdash.Collection do
   end
 
   @doc """
-    Same as *Exdash.Collection.every* but executed in parallel
+  Same as *Exdash.Collection.every* but executed in parallel
   """
   def pevery(collection, fun) do
     pmap_invoke(collection, fun)
@@ -78,12 +81,13 @@ defmodule Exdash.Collection do
 
 
   @doc """
-    Returns the first value of which invoking `fun` equals true.
-    Otherwise return `default`.
+  Returns the first value of which invoking `fun` equals true.
+  Otherwise return `default`.
 
-    ## Examples
+  ## Examples
       iex> Exdash.Collection.find([1, 2, 3], &(&1 > 2))
       3
+
   """
   def find(collection, default, fun) do
     Enum.find(collection, default, fun)
@@ -92,7 +96,7 @@ defmodule Exdash.Collection do
 
 
   @doc """
-    Same as *Exdash.Collection.find* but executed in parallel
+  Same as *Exdash.Collection.find* but executed in parallel
   """
   def pfind(collection, default, fun) do
     case pmap_invoke(collection, fun) |> find(&second/1) do
