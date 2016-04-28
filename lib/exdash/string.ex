@@ -48,12 +48,23 @@ defmodule Exdash.String do
       "hELLO WORLD"
   """
   def downcase_first(str) do
-    String.graphemes(str) |> do_downcase_first
+    String.graphemes(str) |> do_transform_first(&String.downcase/1)
   end
 
-  defp do_downcase_first([]), do: ""
-  defp do_downcase_first([head|tail]) do
-    [String.downcase(head)|tail] |> Enum.join("")
+  @doc """
+  Convers the first charachter of string to upper case.
+
+  ## Examples
+      iex> Exdash.String.upcase_first("hello world")
+      "Hello world"
+  """
+  def upcase_first(str) do
+    String.graphemes(str) |> do_transform_first(&String.upcase/1)
+  end
+
+  defp do_transform_first([], _), do: ""
+  defp do_transform_first([head|tail], fun) do
+    [fun.(head)|tail] |> Enum.join("")
   end
 
   @doc """
