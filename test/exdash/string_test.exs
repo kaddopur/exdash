@@ -70,4 +70,24 @@ defmodule Exdash.StringTest do
     str = "UPCASE"
     assert "uPCASE" == String.downcase_first(str)
   end
+
+  test "snake_case with empty" do
+    str = ""
+    assert str == String.snake_case(str)
+  end
+
+  test "snake_case all upcase" do
+    str = "UPCASE"
+    assert "upcase" == String.snake_case(str)
+  end
+
+  test "snake_case all downcase" do
+    str = "downcase"
+    assert str == String.snake_case(str)
+  end
+
+  test "snake_case" do
+    str = "snake case fOo-baR baZ"
+    assert "snake_case_foo_bar_baz" == String.snake_case(str)
+  end
 end

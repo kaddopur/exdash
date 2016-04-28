@@ -13,9 +13,7 @@ defmodule Exdash.String do
       "camelCase"
   """
   def camel_case(str) do
-    str
-    |> String.split(~r"[^a-zA-Z]", trim: true)
-    |> do_camel_case
+    split(str) |> do_camel_case
   end
 
   defp do_camel_case([]), do: ""
@@ -39,10 +37,7 @@ defmodule Exdash.String do
       "kebab-case"
   """
   def kebab_case(str) do
-    str
-    |> String.split(~r"[^a-zA-Z]", trim: true)
-    |> Enum.join("-")
-    |> String.downcase
+    split(str) |> Enum.join("-") |> String.downcase
   end
 
   @doc """
@@ -58,7 +53,24 @@ defmodule Exdash.String do
 
   defp do_downcase_first([]), do: ""
   defp do_downcase_first([head|tail]) do
-    [String.downcase(head)|tail]
-    |> Enum.join("")
+    [String.downcase(head)|tail] |> Enum.join("")
+  end
+
+  @doc """
+  Converts `str` to [snake case](https://en.wikipedia.org/wiki/Snake_case)
+
+  ## Examples
+      iex> Exdash.String.snake_case("foo bar")
+      "foo_bar"
+
+      iex> Exdash.String.snake_case("__FOO__BAR__")
+      "foo_bar"
+  """
+  def snake_case(str) do
+    split(str) |> Enum.join("_") |> String.downcase
+  end
+
+  defp split(str) do
+    String.split(str, ~r"[^a-zA-Z]", trim: true)
   end
 end
