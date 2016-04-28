@@ -44,4 +44,21 @@ defmodule Exdash.String do
     |> Enum.join("-")
     |> String.downcase
   end
+
+  @doc """
+  Converts the first character of string to down case.
+
+  ## Examples
+      iex> Exdash.String.downcase_first("HELLO WORLD")
+      "hELLO WORLD"
+  """
+  def downcase_first(str) do
+    String.graphemes(str) |> do_downcase_first
+  end
+
+  defp do_downcase_first([]), do: ""
+  defp do_downcase_first([head|tail]) do
+    [String.downcase(head)|tail]
+    |> Enum.join("")
+  end
 end

@@ -56,4 +56,18 @@ defmodule Exdash.StringTest do
     str = "KEBAB-CASE"
     assert "kebab-case" == String.kebab_case(str)
   end
+
+  test "downcase_first empty" do
+    assert "" == String.downcase_first("")
+  end
+
+  test "downcase_first all downcase" do
+    str = "downcase"
+    assert str == String.downcase_first(str)
+  end
+
+  test "downcase_first all upcase" do
+    str = "UPCASE"
+    assert "uPCASE" == String.downcase_first(str)
+  end
 end
