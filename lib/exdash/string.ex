@@ -3,14 +3,14 @@ defmodule Exdash.String do
   Converts `str` to [camel case](https://en.wikipedia.org/wiki/CamelCase)
 
   ## Examples
-    iex> Exdash.String.camel_case("camel case")
-    "camelCase"
+      iex> Exdash.String.camel_case("camel case")
+      "camelCase"
 
-    iex> Exdash.String.camel_case("CAMEL CASE")
-    "CAMELCase"
+      iex> Exdash.String.camel_case("CAMEL CASE")
+      "CAMELCase"
 
-    iex> Exdash.String.camel_case("__camel__case__")
-    "camelCase"
+      iex> Exdash.String.camel_case("__camel__case__")
+      "camelCase"
   """
   def camel_case(str) do
     str
