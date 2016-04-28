@@ -1,10 +1,9 @@
 defmodule Exdash.CollectionTest do
-  use ExUnit.Case, async: false
+  use ExUnit.Case
   use ExCheck
   alias Exdash.Collection
   require Integer
   doctest Exdash.Collection
-  require Logger
 
   test "map on empty list" do
     assert [] == Collection.map([], &addOne/1)
@@ -139,14 +138,44 @@ defmodule Exdash.CollectionTest do
     end
   end
 
-  def addOne(item) do
-    item + 1
+  test "find_last with empty list" do
+    default = nil
+    assert default == Collection.find_last([], default, &isEven/1)
   end
 
-  def isEven({_key, number}), do: isEven(number)
-  def isEven(number) do
-    Integer.is_even(number)
+  property :find_last_defaults do
+    for_all numbers in positive_integers do
+      [default|_] = Enum.reverse(numbers)
+      default == Collection.find_last(numbers, default, fn _ -> false end)
+    end
   end
+
+  test "find_last multiple occurences" do
+    numbers = [{"a", 1}, {"b", 2}, {"c", 1}]
+    assert {"c", 1} == Collection.find_last(numbers, nil, fn {_, value} -> value == 1 end)
+  end
+
+  test "pfind_last empty list" do
+    default = nil
+    assert default == Collection.pfind_last([], default, &isEven/1)
+  end
+
+  property :pfind_last_defaults do
+    for_all numbers in positive_integers do
+      [default|_] = Enum.reverse(numbers)
+      default == Collection.pfind_last(numbers, default, fn _ -> false end)
+    end
+  end
+
+  test "pfind_last multiple occurences" do
+    numbers = [{"a", 1}, {"b", 2}, {"c", 1}]
+    assert {"c", 1} == Collection.pfind_last(numbers, nil, fn {_, value} -> value == 1 end)
+  end
+
+  def addOne(n), do: n + 1
+
+  def isEven({_key, number}), do: isEven(number)
+  def isEven(number), do: Integer.is_even(number)
 
   defp positive_integers(max \\ 10) do
     such_that(x in list(int(0, max)) when length(x) > 0)

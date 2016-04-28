@@ -12,7 +12,7 @@ defmodule Exdash.Collection do
   end
 
   @doc """
-  Same as *Exdash.Collection.map* but executed in parallel
+  Same as *Exdash.Collection.map* but executed in parallel.
   """
   def pmap(collection, fun) do
     me = self
@@ -43,7 +43,7 @@ defmodule Exdash.Collection do
   end
 
   @doc """
-    Same as *Exdash.Collection.filter* but executed in parallel
+    Same as *Exdash.Collection.filter* but executed in parallel.
   """
   def pfilter(collection, fun) do
     for {value, bool} <- pmap_invoke(collection, fun), bool, do: value
@@ -72,7 +72,7 @@ defmodule Exdash.Collection do
   end
 
   @doc """
-  Same as *Exdash.Collection.every* but executed in parallel
+  Same as *Exdash.Collection.every* but executed in parallel.
   """
   def pevery(collection, fun) do
     pmap_invoke(collection, fun)
@@ -96,13 +96,28 @@ defmodule Exdash.Collection do
 
 
   @doc """
-  Same as *Exdash.Collection.find* but executed in parallel
+  Same as *Exdash.Collection.find* but executed in parallel.
   """
   def pfind(collection, default, fun) do
     case pmap_invoke(collection, fun) |> find(&second/1) do
       {item, _} -> item
       _ -> default
     end
+  end
+
+  @doc """
+  Same as *Exdash.Collection.find* but searches through the `collection` from right to left.
+  """
+  def find_last(collection, default, fun) do
+    Enum.reverse(collection) |> find(default, fun)
+  end
+
+
+  @doc """
+  Same as *Exdash.Collection.find_last* but executed in parallel.
+  """
+  def pfind_last(collection, default, fun) do
+    Enum.reverse(collection) |> pfind(default, fun)
   end
 
   defp pmap_invoke(collection, fun) do
