@@ -1,10 +1,9 @@
 defmodule Exdash.CollectionTest do
-  use ExUnit.Case, async: false
+  use ExUnit.Case
   use ExCheck
   alias Exdash.Collection
   require Integer
   doctest Exdash.Collection
-  require Logger
 
   test "map on empty list" do
     assert [] == Collection.map([], &addOne/1)
@@ -69,13 +68,13 @@ defmodule Exdash.CollectionTest do
   end
 
   property :every_with_truthy do
-    for_all numbers in such_that(x in list(int(0, 10)) when length(x) > 0) do
+    for_all numbers in positive_integers do
       Collection.every(numbers, &(&1 > 0)) == true
     end
   end
 
   property :every_with_falsy do
-    for_all numbers in such_that(x in list(int(0, 10)) when length(x) > 0) do
+    for_all numbers in positive_integers do
       Collection.every(numbers, &(&1 < 0)) == false
     end
   end
@@ -85,13 +84,13 @@ defmodule Exdash.CollectionTest do
   end
 
   property :pevery_with_truthy do
-    for_all numbers in such_that(x in list(int(0, 10)) when length(x) > 0) do
+    for_all numbers in positive_integers do
       Collection.pevery(numbers, &(&1 > 0)) == true
     end
   end
 
   property :pevery_with_falsy do
-    for_all numbers in such_that(x in list(int(0, 10)) when length(x) > 0) do
+    for_all numbers in positive_integers do
       Collection.pevery(numbers, &(&1 < 0)) == false
     end
   end
@@ -108,14 +107,14 @@ defmodule Exdash.CollectionTest do
   end
 
   property :find_convenience do
-    for_all numbers in list(int(0, 10)) do
+    for_all numbers in positive_integers do
       find = (fn _ -> true end)
       Collection.find(numbers, nil, find) == Collection.find(numbers, find)
     end
   end
 
   property :find do
-    for_all numbers in such_that(x in list(int(0, 10)) when length(x) > 0) do
+    for_all numbers in positive_integers do
       default = nil
       Collection.find(numbers, default, &(&1 > 0)) != default
     end
@@ -127,24 +126,58 @@ defmodule Exdash.CollectionTest do
   end
 
   property :pfind_defaults do
-    for_all numbers in such_that(x in list(int(0, 10)) when length(x) > 0) do
+    for_all numbers in positive_integers do
       Collection.pfind(numbers, 1, &(&1 < -10)) == 1
     end
   end
 
   property :pfind do
-    for_all numbers in such_that(x in list(int(0, 10)) when length(x) > 0) do
+    for_all numbers in positive_integers do
       find = fn number -> number > 0 end
       Collection.find(numbers, nil, find) == Collection.pfind(numbers, nil, find)
     end
   end
 
-  def addOne(item) do
-    item + 1
+  test "find_last with empty list" do
+    default = nil
+    assert default == Collection.find_last([], default, &isEven/1)
   end
 
+  property :find_last_defaults do
+    for_all numbers in positive_integers do
+      [default|_] = Enum.reverse(numbers)
+      default == Collection.find_last(numbers, default, fn _ -> false end)
+    end
+  end
+
+  test "find_last multiple occurences" do
+    numbers = [{"a", 1}, {"b", 2}, {"c", 1}]
+    assert {"c", 1} == Collection.find_last(numbers, nil, fn {_, value} -> value == 1 end)
+  end
+
+  test "pfind_last empty list" do
+    default = nil
+    assert default == Collection.pfind_last([], default, &isEven/1)
+  end
+
+  property :pfind_last_defaults do
+    for_all numbers in positive_integers do
+      [default|_] = Enum.reverse(numbers)
+      default == Collection.pfind_last(numbers, default, fn _ -> false end)
+    end
+  end
+
+  test "pfind_last multiple occurences" do
+    numbers = [{"a", 1}, {"b", 2}, {"c", 1}]
+    assert {"c", 1} == Collection.pfind_last(numbers, nil, fn {_, value} -> value == 1 end)
+  end
+
+  def addOne(n), do: n + 1
+
   def isEven({_key, number}), do: isEven(number)
-  def isEven(number) do
-    Integer.is_even(number)
+  def isEven(number), do: Integer.is_even(number)
+
+  defp positive_integers(max \\ 10) do
+    such_that(x in list(int(0, max)) when length(x) > 0)
   end
 end
