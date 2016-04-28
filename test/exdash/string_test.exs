@@ -37,4 +37,23 @@ defmodule Exdash.StringTest do
     str = "FooBarBaz"
     assert str == String.camel_case(str)
   end
+
+  test "kebab_case empty string" do
+    assert "" == String.kebab_case("")
+  end
+
+  test "kebab_case" do
+    str = "kebab-case"
+    assert str == String.kebab_case(str)
+  end
+
+  test "kebab-case spaces" do
+    str = "kebab case"
+    assert "kebab-case" == String.kebab_case(str)
+  end
+
+  test "kebab-case upper case" do
+    str = "KEBAB-CASE"
+    assert "kebab-case" == String.kebab_case(str)
+  end
 end
