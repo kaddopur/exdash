@@ -90,4 +90,28 @@ defmodule Exdash.StringTest do
     str = "snake case fOo-baR baZ"
     assert "snake_case_foo_bar_baz" == String.snake_case(str)
   end
+
+  test "words empty" do
+    assert [] == String.words("")
+  end
+
+  test "words" do
+    sentence = "foo bar baz"
+    assert ["foo", "bar", "baz"] == String.words(sentence)
+  end
+
+  test "words ignore special chars" do
+    sentence = "foo_bar-baz*"
+    assert [sentence] == String.words(sentence)
+  end
+
+  test "words with custom pattern" do
+    sentence = "foo_bar_baz"
+    assert ["foo", "bar", "baz"] == String.words(sentence, ~r"\_")
+  end
+
+  test "words trim" do
+    sentence = "foo  bar"
+    assert ["foo", "bar"] == String.words(sentence)
+  end
 end

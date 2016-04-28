@@ -73,4 +73,21 @@ defmodule Exdash.String do
   defp split(str) do
     String.split(str, ~r"[^a-zA-Z]", trim: true)
   end
+
+  @doc """
+  Split `str` into words using `pattern`.
+
+  ## Examples
+      iex> Exdash.String.words("foo bar baz")
+      ["foo", "bar", "baz"]
+
+      iex> Exdash.String.words("foo_bar_baz", ~r"\_")
+      ["foo", "bar", "baz"]
+  """
+  def words(str, pattern \\ ~r"\s") do
+    case String.split(str, pattern, trim: true) do
+      [""] -> []
+      result -> result
+    end
+  end
 end
