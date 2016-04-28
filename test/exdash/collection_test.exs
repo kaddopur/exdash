@@ -69,13 +69,13 @@ defmodule Exdash.CollectionTest do
   end
 
   property :every_with_truthy do
-    for_all numbers in such_that(x in list(int(0, 10)) when length(x) > 0) do
+    for_all numbers in positive_integers do
       Collection.every(numbers, &(&1 > 0)) == true
     end
   end
 
   property :every_with_falsy do
-    for_all numbers in such_that(x in list(int(0, 10)) when length(x) > 0) do
+    for_all numbers in positive_integers do
       Collection.every(numbers, &(&1 < 0)) == false
     end
   end
@@ -85,13 +85,13 @@ defmodule Exdash.CollectionTest do
   end
 
   property :pevery_with_truthy do
-    for_all numbers in such_that(x in list(int(0, 10)) when length(x) > 0) do
+    for_all numbers in positive_integers do
       Collection.pevery(numbers, &(&1 > 0)) == true
     end
   end
 
   property :pevery_with_falsy do
-    for_all numbers in such_that(x in list(int(0, 10)) when length(x) > 0) do
+    for_all numbers in positive_integers do
       Collection.pevery(numbers, &(&1 < 0)) == false
     end
   end
@@ -108,14 +108,14 @@ defmodule Exdash.CollectionTest do
   end
 
   property :find_convenience do
-    for_all numbers in list(int(0, 10)) do
+    for_all numbers in positive_integers do
       find = (fn _ -> true end)
       Collection.find(numbers, nil, find) == Collection.find(numbers, find)
     end
   end
 
   property :find do
-    for_all numbers in such_that(x in list(int(0, 10)) when length(x) > 0) do
+    for_all numbers in positive_integers do
       default = nil
       Collection.find(numbers, default, &(&1 > 0)) != default
     end
@@ -127,13 +127,13 @@ defmodule Exdash.CollectionTest do
   end
 
   property :pfind_defaults do
-    for_all numbers in such_that(x in list(int(0, 10)) when length(x) > 0) do
+    for_all numbers in positive_integers do
       Collection.pfind(numbers, 1, &(&1 < -10)) == 1
     end
   end
 
   property :pfind do
-    for_all numbers in such_that(x in list(int(0, 10)) when length(x) > 0) do
+    for_all numbers in positive_integers do
       find = fn number -> number > 0 end
       Collection.find(numbers, nil, find) == Collection.pfind(numbers, nil, find)
     end
@@ -146,5 +146,9 @@ defmodule Exdash.CollectionTest do
   def isEven({_key, number}), do: isEven(number)
   def isEven(number) do
     Integer.is_even(number)
+  end
+
+  defp positive_integers(max \\ 10) do
+    such_that(x in list(int(0, max)) when length(x) > 0)
   end
 end
