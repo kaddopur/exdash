@@ -3,7 +3,7 @@ defmodule Exdash.Mixfile do
 
   def project do
     [app: :exdash,
-     version: "0.2.0",
+     version: "0.3.0",
      name: "ExDash",
      source_url: "https://github.com/TFarla/exdash",
      homepage_url: "https://github.com/TFarla/exdash",
