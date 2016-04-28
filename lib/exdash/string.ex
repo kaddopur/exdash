@@ -1,4 +1,8 @@
 defmodule Exdash.String do
+  @moduledoc """
+  Specialized functions to manipulate Strings.
+  """
+  
   @doc """
   Converts `str` to [camel case](https://en.wikipedia.org/wiki/CamelCase)
 
