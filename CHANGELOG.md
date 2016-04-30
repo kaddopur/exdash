@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Add
 - Function.after_nth
+- Contribution guide
 
 ## [0.3.0] - 2016-04-28
 ### Add
