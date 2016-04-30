@@ -1,7 +1,6 @@
 defmodule Exdash.Function do
   @doc """
-  Executes `fun` after it is invoked `times` amount of times.
-  Subsequent calls to the created function return the result of the last func invocation.
+  Executes `fun` after it is invoked `times` or more times.
 
   ## Examples
       iex> fun = Exdash.Function.after_nth(1, fn -> :ok end)
