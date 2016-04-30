@@ -18,6 +18,12 @@
   end
 ```
 
+## Change log
+Read the [CHANGELOG.md](CHANGELOG.md)
+
+## Contributing
+Read the [contribution guide](CONTRIBUTING.md)
+
 ## Roadmap
 ### Array
 - [ ] chunk
