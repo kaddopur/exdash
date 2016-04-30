@@ -167,7 +167,7 @@
 - [ ] inRange
 - [ ] random
 
-### String
+### [String]
 - [x] camel_case
 - [ ] capitalize
 - [ ] deburr
@@ -201,3 +201,4 @@
 
 [Collection]: https://hexdocs.pm/exdash/0.3.0/Exdash.Collection.html
 [Function]: https://hexdocs.pm/exdash/0.3.0/Exdash.Function.html
+[String]: https://hexdocs.pm/exdash/0.3.0/Exdash.String.html
