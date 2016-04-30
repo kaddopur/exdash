@@ -7,7 +7,7 @@
 1. Add exdash to your list of dependencies in `mix.exs`:
 ```
   def deps do
-    [{:exdash, "~> 0.3.0"}]
+    [{:exdash, "~> 0.3.1"}]
   end
 ```
 
