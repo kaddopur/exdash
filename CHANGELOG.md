@@ -5,6 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Add
 - Function.before_nth
+- Function.call_times
 
 ### Change
 - Function.after_nth doctest

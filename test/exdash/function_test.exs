@@ -84,6 +84,22 @@ defmodule Exdash.FunctionTest do
     assert 1 == Server.get(server)
   end
 
+  test "call_times 0 times", %{"server" => server} do
+    Function.call_times(0, fn _ -> Server.inc(server) end)
+    assert 0 == Server.get(server)
+  end
+
+  test "call_times 1 time", %{"server" => server} do
+    Function.call_times(1, fn _ -> Server.inc(server) end)
+    assert 1 == Server.get(server)
+  end
+
+  property :call_times_return do
+    for_all n in int(1, 100) do
+      assert Enum.into(1..n, []) == Function.call_times(n, &(&1))
+    end
+  end
+
   defp after_nth(times, server) do
     Function.after_nth(times, fn ->
       Server.inc(server)

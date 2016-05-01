@@ -132,6 +132,7 @@ Read the [contribution guide](CONTRIBUTING.md)
 - [x] before_nth
 - [ ] bind
 - [ ] bindKey
+- [x] call_times
 - [ ] curry
 - [ ] curryRight
 - [ ] debounce

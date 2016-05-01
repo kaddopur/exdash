@@ -31,6 +31,20 @@ defmodule Exdash.Function do
     do_call_nth(times, fun, start_called_server, &Kernel.</2)
   end
 
+  @doc """
+  Invoke the `fun` a set amount of `times`, returning a **list** of the result of each invokation.
+  ## Examples
+      iex> Exdash.Function.call_times(3, &(&1))
+      [1, 2, 3]
+
+      iex> Exdash.Function.call_times(0, &(&1))
+      []
+  """
+  def call_times(times, fun) when times > 0 do
+    Enum.map(1..times, fn index -> fun.(index) end)
+  end
+  def call_times(_, _), do: []
+
   defp do_call_nth(times, fun, agent, predicate) do
     fn ->
       called_times = get_and_inc_called_server(agent)
