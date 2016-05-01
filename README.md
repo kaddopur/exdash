@@ -141,7 +141,7 @@ Read the [contribution guide](CONTRIBUTING.md)
 - [ ] flip
 - [ ] memoize
 - [ ] negate
-- [ ] once
+- [x] once
 - [ ] overArgs
 - [ ] partial
 - [ ] partialRight

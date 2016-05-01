@@ -100,6 +100,31 @@ defmodule Exdash.FunctionTest do
     end
   end
 
+  test "once with no execution", %{"server" => server} do
+    Function.once(fn -> Server.inc(server) end)
+    assert 0 == Server.get(server)
+  end
+
+  test "once with a single execution", %{"server" => server} do
+    fun = Function.once(fn ->
+      Server.inc(server)
+      Server.get(server)
+    end)
+
+    result = Function.call_times(1, fn _ -> fun.() end)
+    assert [1] == result
+  end
+
+  test "once called multiple times", %{"server" => server} do
+    fun = Function.once(fn ->
+      Server.inc(server)
+      Server.get(server)
+    end)
+
+    result = Function.call_times(3, fn _ -> fun.() end)
+    assert [1, 1, 1] == result && 1 == Server.get(server)
+  end
+
   defp after_nth(times, server) do
     Function.after_nth(times, fn ->
       Server.inc(server)

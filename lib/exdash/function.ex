@@ -36,7 +36,8 @@ defmodule Exdash.Function do
 
   @doc """
   Invoke the `fun` a set amount of `times`,
-  returning a **list** of the result of each invokation.
+  returning a **list** of the result of each invocation.
+
   ## Examples
       iex> Exdash.Function.call_times(3, &(&1))
       [1, 2, 3]
@@ -48,6 +49,42 @@ defmodule Exdash.Function do
     Enum.map(1..times, fn index -> fun.(index) end)
   end
   def call_times(_, _), do: []
+
+  @doc """
+  Creates a function that is restricted to invoking `fun` once.
+  Repeat calls to the function return the value of the first invocation.
+
+  ## Examples
+      iex> {:ok, pid} = Agent.start_link(fn -> 0 end)
+      ...> fun = Exdash.Function.once(fn ->
+      ...>   Agent.get_and_update(pid, fn n -> {n, n + 1} end)
+      ...> end)
+      ...> {fun.(), fun.(), Agent.get(pid, &(&1))}
+      {0, 0, 1}
+  """
+  def once(fun) do
+    {:ok, pid} = Agent.start_link(fn ->
+      %{"called?" => false, "value" => nil}
+    end)
+
+    fn ->
+      pid
+      |> Agent.get(&(&1))
+      |> do_once(pid, fun)
+    end
+  end
+
+  defp do_once(%{"called?" => false}, pid, fun) do
+    result = fun.()
+    pid
+    |> Agent.update(fn _ ->
+      %{"called?" => true, "value" => result}
+    end)
+    result
+  end
+  defp do_once(%{"called?" => true, "value" => value}, _, _) do
+    value
+  end
 
   defp do_call_nth(times, fun, agent, predicate) do
     fn ->
