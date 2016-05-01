@@ -97,7 +97,7 @@ defmodule Exdash.Function do
     end
   end
 
-  @doc """
+  @doc ~S"""
     Creates a function that invokes `fun`
     with partials prepended to the arguments it receives.
 
@@ -105,10 +105,21 @@ defmodule Exdash.Function do
         iex> add_one = Exdash.Function.partial(&Kernel.+/2, [1])
         ...> add_one.(2)
         3
+
+        iex> greet = fn greeting, name ->
+        ...>  "#{greeting}, #{name}"
+        ...> end
+        ...> pgreet = Exdash.Function.partial(greet, [Exdash.Placeholder, "Ad"])
+        ...> pgreet.("Hi")
+        "Hi, Ad"
   """
   def partial(fun, args) do
     fn arg ->
-      apply(fun, args ++ [arg])
+      case Enum.find_index(args, &(&1 == Exdash.Placeholder)) do
+        nil -> apply(fun, args ++ [arg])
+        index ->
+          apply(fun, List.replace_at(args, index, arg))
+      end
     end
   end
 

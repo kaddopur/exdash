@@ -143,6 +143,15 @@ defmodule Exdash.FunctionTest do
     assert 3 == add_one.(2)
   end
 
+  test "partial placeholder" do
+    greet = fn greeting, name ->
+      "#{greeting}, #{name}"
+    end
+
+    partial = Exdash.partial(greet, [Exdash.Placeholder, "bob"])
+    assert greet.("Hi", "bob") == partial.("Hi")
+  end
+
   defp after_nth(times, server) do
     Exdash.after_nth(times, fn ->
       Server.inc(server)
