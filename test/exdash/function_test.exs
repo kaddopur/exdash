@@ -34,36 +34,65 @@ defmodule Exdash.FunctionTest do
   end
 
   test "after no execution", %{"server" => server} do
-    Function.after_nth(1, fn ->
-      Server.inc(server)
-    end)
+    after_nth(1, server)
     assert 0 == Server.get(server)
   end
 
   test "after not enough executions", %{"server" => server} do
-    Function.after_nth(2, fn ->
-      Server.inc(server)
-    end).()
-
+    fun = after_nth(2, server)
+    Enum.each(1..1, fn _ -> fun.() end)
     assert 0 == Server.get(server)
   end
 
   test "after enough executions", %{"server" => server} do
-    Function.after_nth(1, fn ->
-      Server.inc(server)
-    end).()
-
+    fun = after_nth(1, server)
+    Enum.each(1..1, fn _ -> fun.() end)
     assert 1 == Server.get(server)
   end
 
   test "after too many executions", %{"server" => server} do
-    fun = Function.after_nth(1, fn ->
+    fun = after_nth(1, server)
+    Enum.each(1..2, fn _ -> fun.() end)
+    assert 2 == Server.get(server)
+  end
+
+  test "before 0 times", %{"server" => server} do
+    before_nth(0, server)
+    assert 0 == Server.get(server)
+  end
+
+  test "before 1 time", %{"server" => server} do
+    fun = before_nth(1, server)
+    Enum.each(1..1, fn _ -> fun.() end)
+    assert 0 == Server.get(server)
+  end
+
+  test "before no executions", %{"server" => server} do
+    before_nth(2, server)
+    assert 0 == Server.get(server)
+  end
+
+  test "before 2 times", %{"server" => server} do
+    fun = before_nth(2, server)
+    Enum.each(1..2, fn _ -> fun.() end)
+    assert 1 == Server.get(server)
+  end
+
+  test "before too many times", %{"server" => server} do
+    fun = before_nth(2, server)
+    Enum.each(1..5, fn _ -> fun.() end)
+    assert 1 == Server.get(server)
+  end
+
+  defp after_nth(times, server) do
+    Function.after_nth(times, fn ->
       Server.inc(server)
     end)
+  end
 
-    fun.()
-    fun.()
-
-    assert 2 == Server.get(server)
+  defp before_nth(times, server) do
+    Function.before_nth(times, fn ->
+      Server.inc(server)
+    end)
   end
 end

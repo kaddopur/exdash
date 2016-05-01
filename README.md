@@ -129,7 +129,7 @@ Read the [contribution guide](CONTRIBUTING.md)
 ### [Function]
 - [x] after_nth
 - [ ] ary
-- [ ] before
+- [x] before_nth
 - [ ] bind
 - [ ] bindKey
 - [ ] curry
@@ -182,7 +182,7 @@ Read the [contribution guide](CONTRIBUTING.md)
 - [ ] escapeRegExp
 - [x] kebab_case
 - [ ] down_case
-- [ ] lowerFirst
+- [x] downcase_first
 - [ ] pad
 - [ ] padEnd
 - [ ] padStart
