@@ -143,7 +143,7 @@ Read the [contribution guide](CONTRIBUTING.md)
 - [ ] negate
 - [x] once
 - [ ] overArgs
-- [ ] partial
+- [x] partial
 - [ ] partialRight
 - [ ] rearg
 - [ ] rest

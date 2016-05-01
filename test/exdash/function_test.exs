@@ -138,6 +138,11 @@ defmodule Exdash.FunctionTest do
     assert 125 == cubed.(5).(5).(5)
   end
 
+  test "partial" do
+    add_one = Exdash.partial(&Kernel.+/2, [1])
+    assert 3 == add_one.(2)
+  end
+
   defp after_nth(times, server) do
     Exdash.after_nth(times, fn ->
       Server.inc(server)

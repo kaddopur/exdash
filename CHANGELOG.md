@@ -9,6 +9,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Function.once
 - Delegation functions in order to use `Exdash.<function>` instead of `Exdash.<module>.<function>`
 - Function.curry
+- Function.partial
 
 ### Change
 - Function.after_nth doctest

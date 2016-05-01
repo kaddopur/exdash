@@ -97,6 +97,21 @@ defmodule Exdash.Function do
     end
   end
 
+  @doc """
+    Creates a function that invokes `fun`
+    with partials prepended to the arguments it receives.
+
+    ## Examples
+        iex> add_one = Exdash.Function.partial(&Kernel.+/2, [1])
+        ...> add_one.(2)
+        3
+  """
+  def partial(fun, args) do
+    fn arg ->
+      apply(fun, args ++ [arg])
+    end
+  end
+
   defp do_once(%{"called?" => false}, pid, fun) do
     result = fun.()
     pid

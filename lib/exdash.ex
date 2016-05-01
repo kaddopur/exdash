@@ -12,6 +12,7 @@ defmodule Exdash do
   defdelegate call_times(times, fun), to: Function, as: :call_times
   defdelegate once(fun), to: Function, as: :once
   defdelegate curry(fun), to: Function, as: :curry
+  defdelegate partial(fun, args), to: Function, as: :partial
 
   # Collection
   defdelegate map(collection, fun), to: Enum, as: :map
