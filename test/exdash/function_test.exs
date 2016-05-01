@@ -124,6 +124,20 @@ defmodule Exdash.FunctionTest do
     assert [1, 1, 1] == result && 1 == Server.get(server)
   end
 
+  test "curry add" do
+    add = Exdash.curry(&Kernel.+/2)
+    add_one = add.(1)
+    assert 11 == add_one.(10)
+  end
+
+  test "curry cubed" do
+    cubed = Exdash.curry(fn (x, y, z) ->
+      x * y * z
+    end)
+
+    assert 125 == cubed.(5).(5).(5)
+  end
+
   defp after_nth(times, server) do
     Exdash.after_nth(times, fn ->
       Server.inc(server)

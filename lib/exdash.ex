@@ -11,6 +11,7 @@ defmodule Exdash do
   defdelegate before_nth(times, fun), to: Function, as: :before_nth
   defdelegate call_times(times, fun), to: Function, as: :call_times
   defdelegate once(fun), to: Function, as: :once
+  defdelegate curry(fun), to: Function, as: :curry
 
   # Collection
   defdelegate map(collection, fun), to: Enum, as: :map

@@ -74,6 +74,29 @@ defmodule Exdash.Function do
     end
   end
 
+  @doc """
+  Creates a function that accepts arguments of `fun`
+  and either invokes `fun` returning its result,
+  if at least arity number of `arguments` have been provided,
+  or returns a function that accepts the remaining `fun` arguments, and so on.
+
+  ## Examples
+      iex> add = Exdash.Function.curry(&Kernel.+/2)
+      ...> add_one = add.(1)
+      ...> add_one.(2)
+      3
+  """
+  def curry(func) do
+    {_, arity} = :erlang.fun_info(func, :arity)
+    curry(func, arity, [])
+  end
+  def curry(func, 0, args), do: apply(func, args)
+  def curry(func, arity, args) do
+    fn arg ->
+      curry(func, arity - 1, [arg | args])
+    end
+  end
+
   defp do_once(%{"called?" => false}, pid, fun) do
     result = fun.()
     pid

@@ -133,7 +133,7 @@ Read the [contribution guide](CONTRIBUTING.md)
 - [ ] bind
 - [ ] bindKey
 - [x] call_times
-- [ ] curry
+- [x] curry
 - [ ] curryRight
 - [ ] debounce
 - [ ] defer
