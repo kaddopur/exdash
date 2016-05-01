@@ -1,7 +1,6 @@
 defmodule Exdash.FunctionTest do
   use ExUnit.Case
   use ExCheck
-  alias Exdash.Function
   doctest Exdash.Function
 
   defmodule Server do
@@ -85,54 +84,54 @@ defmodule Exdash.FunctionTest do
   end
 
   test "call_times 0 times", %{"server" => server} do
-    Function.call_times(0, fn _ -> Server.inc(server) end)
+    Exdash.call_times(0, fn _ -> Server.inc(server) end)
     assert 0 == Server.get(server)
   end
 
   test "call_times 1 time", %{"server" => server} do
-    Function.call_times(1, fn _ -> Server.inc(server) end)
+    Exdash.call_times(1, fn _ -> Server.inc(server) end)
     assert 1 == Server.get(server)
   end
 
   property :call_times_return do
     for_all n in int(1, 100) do
-      assert Enum.into(1..n, []) == Function.call_times(n, &(&1))
+      assert Enum.into(1..n, []) == Exdash.call_times(n, &(&1))
     end
   end
 
   test "once with no execution", %{"server" => server} do
-    Function.once(fn -> Server.inc(server) end)
+    Exdash.once(fn -> Server.inc(server) end)
     assert 0 == Server.get(server)
   end
 
   test "once with a single execution", %{"server" => server} do
-    fun = Function.once(fn ->
+    fun = Exdash.once(fn ->
       Server.inc(server)
       Server.get(server)
     end)
 
-    result = Function.call_times(1, fn _ -> fun.() end)
+    result = Exdash.call_times(1, fn _ -> fun.() end)
     assert [1] == result
   end
 
   test "once called multiple times", %{"server" => server} do
-    fun = Function.once(fn ->
+    fun = Exdash.once(fn ->
       Server.inc(server)
       Server.get(server)
     end)
 
-    result = Function.call_times(3, fn _ -> fun.() end)
+    result = Exdash.call_times(3, fn _ -> fun.() end)
     assert [1, 1, 1] == result && 1 == Server.get(server)
   end
 
   defp after_nth(times, server) do
-    Function.after_nth(times, fn ->
+    Exdash.after_nth(times, fn ->
       Server.inc(server)
     end)
   end
 
   defp before_nth(times, server) do
-    Function.before_nth(times, fn ->
+    Exdash.before_nth(times, fn ->
       Server.inc(server)
     end)
   end

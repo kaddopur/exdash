@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Function.before_nth
 - Function.call_times
 - Function.once
+- Delegation functions in order to use `Exdash.<function>` instead of `Exdash.<module>.<function>`
 
 ### Change
 - Function.after_nth doctest
