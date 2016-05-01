@@ -1,8 +1,7 @@
 defmodule Exdash.String do
   @moduledoc """
-  Specialized functions to manipulate Strings.
   """
-  
+
   @doc """
   Converts `str` to [camel case](https://en.wikipedia.org/wiki/CamelCase)
 
@@ -17,7 +16,7 @@ defmodule Exdash.String do
       "camelCase"
   """
   def camel_case(str) do
-    split(str) |> do_camel_case
+    str |> split |> do_camel_case
   end
 
   defp do_camel_case([]), do: ""
@@ -28,7 +27,8 @@ defmodule Exdash.String do
   end
 
   @doc """
-  Converts `str` to [kebab case](https://en.wikipedia.org/wiki/Letter_case#Special_case_styles)
+  Converts `str` to
+  [kebab case](https://en.wikipedia.org/wiki/Letter_case#Special_case_styles)
 
   ## Examples
       iex> Exdash.String.kebab_case("kebab case")
@@ -41,7 +41,7 @@ defmodule Exdash.String do
       "kebab-case"
   """
   def kebab_case(str) do
-    split(str) |> Enum.join("-") |> String.downcase
+    str |> split |> Enum.join("-") |> String.downcase
   end
 
   @doc """
@@ -52,7 +52,7 @@ defmodule Exdash.String do
       "hELLO WORLD"
   """
   def downcase_first(str) do
-    String.graphemes(str) |> do_transform_first(&String.downcase/1)
+    str |> String.graphemes |> do_transform_first(&String.downcase/1)
   end
 
   @doc """
@@ -63,7 +63,7 @@ defmodule Exdash.String do
       "Hello world"
   """
   def upcase_first(str) do
-    String.graphemes(str) |> do_transform_first(&String.upcase/1)
+    str |> String.graphemes |> do_transform_first(&String.upcase/1)
   end
 
   defp do_transform_first([], _), do: ""
@@ -82,7 +82,7 @@ defmodule Exdash.String do
       "foo_bar"
   """
   def snake_case(str) do
-    split(str) |> Enum.join("_") |> String.downcase
+    str |> split |> Enum.join("_") |> String.downcase
   end
 
   defp split(str) do

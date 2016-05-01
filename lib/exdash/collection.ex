@@ -1,6 +1,10 @@
 defmodule Exdash.Collection do
+  @moduledoc """
+  """
+
   @doc """
-  Returns a `list` where each item is the result of invoking `fun` on each element in the `collection`.
+  Returns a `list` where each item is the result of invoking `fun`
+  on each element in the `collection`.
 
   ## Examples
       iex> Exdash.Collection.map([1, 2, 3], &(&1 + 1))
@@ -16,7 +20,8 @@ defmodule Exdash.Collection do
   """
   def pmap(collection, fun) do
     me = self
-    Enum.map(collection, fn item ->
+    collection
+    |> Enum.map(fn item ->
       spawn_link(fn ->
         send(me, {self, fun.(item)})
       end)
@@ -75,7 +80,8 @@ defmodule Exdash.Collection do
   Same as *Exdash.Collection.every* but executed in parallel.
   """
   def pevery(collection, fun) do
-    pmap_invoke(collection, fun)
+    collection
+    |> pmap_invoke(fun)
     |> every(&second/1)
   end
 
@@ -99,25 +105,30 @@ defmodule Exdash.Collection do
   Same as *Exdash.Collection.find* but executed in parallel.
   """
   def pfind(collection, default, fun) do
-    case pmap_invoke(collection, fun) |> find(&second/1) do
+    result =
+      collection
+      |> pmap_invoke(fun)
+      |> find(&second/1)
+
+    case result do
       {item, _} -> item
       _ -> default
     end
   end
 
   @doc """
-  Same as *Exdash.Collection.find* but searches through the `collection` from right to left.
+  Same as *Exdash.Collection.find* but searches
+  through the `collection` from right to left.
   """
   def find_last(collection, default, fun) do
-    Enum.reverse(collection) |> find(default, fun)
+    collection |> Enum.reverse |> find(default, fun)
   end
-
 
   @doc """
   Same as *Exdash.Collection.find_last* but executed in parallel.
   """
   def pfind_last(collection, default, fun) do
-    Enum.reverse(collection) |> pfind(default, fun)
+    collection |> Enum.reverse |> pfind(default, fun)
   end
 
   defp pmap_invoke(collection, fun) do

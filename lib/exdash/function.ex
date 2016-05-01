@@ -1,4 +1,7 @@
 defmodule Exdash.Function do
+  @moduledoc """
+  """
+
   @doc """
   Executes `fun` after it's invoked `times` or more times.
 
@@ -32,7 +35,8 @@ defmodule Exdash.Function do
   end
 
   @doc """
-  Invoke the `fun` a set amount of `times`, returning a **list** of the result of each invokation.
+  Invoke the `fun` a set amount of `times`,
+  returning a **list** of the result of each invokation.
   ## Examples
       iex> Exdash.Function.call_times(3, &(&1))
       [1, 2, 3]

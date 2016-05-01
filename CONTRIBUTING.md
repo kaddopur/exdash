@@ -3,6 +3,18 @@ Contributing to Exdash
 
 First off, Thanks for taking the time to contribute!
 
+## Installing the project
+### Prerequisites
+Make sure the following is installed on your system:
+- Elixir (>= 1.2)
+- Erlang/OTP (18)
+
+### Fork the project
+Create a working copy by [forking](https://help.github.com/articles/fork-a-repo/) the repository.
+
+### Installing dependencies
+Navigate to the root of the project in your preferred terminal and execute `mix deps.get`.
+
 ## How can I contribute?
 Glad you ask!
 
@@ -54,3 +66,4 @@ Not sure where to start contributing? You can start by looking through the [`hel
 - Use the imperative mood ("Move cursor to..." not "Moves cursor to...")
 - Limit the first line to 72 characters or less
 - Reference issues and pull requests liberally
+- Please execute `mix test && mix dogma` and fix any errors before committing any code

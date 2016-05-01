@@ -32,7 +32,7 @@ defmodule Exdash.Mixfile do
 
   defp package do
     [# These are the default files included in the package
-     files: ["lib", "priv", "mix.exs", "README*", "CHANGELOG*", "readme*", "LICENSE*", "license*"],
+     files: ["lib", "priv", "mix.exs", "README*", "CHANGELOG*", "LICENSE*"],
      maintainers: ["Thomas Farla"],
      licenses: ["MIT License"],
      links: %{"GitHub" => "https://github.com/TFarla/exdash",
@@ -49,7 +49,8 @@ defmodule Exdash.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:ex_doc, "~> 0.11", only: :dev},
+    [{:dogma, "~> 0.1", only: [:dev, :test]},
+     {:ex_doc, "~> 0.11", only: :dev},
      {:excoveralls, "~> 0.4", only: :test},
      {:excheck, "~> 0.3", only: :test},
      {:triq, github: "krestenkrab/triq", only: :test}]
