@@ -4,7 +4,7 @@ defmodule Exdash.Function do
 
   @type f :: (... -> any)
 
-  @doc """
+  @doc ~S"""
   Executes `fun` after it's invoked `times` or more times.
 
   ## Examples
@@ -21,7 +21,7 @@ defmodule Exdash.Function do
     do_call_nth(times, fun, start_called_server, &Kernel.>=/2)
   end
 
-  @doc """
+  @doc ~S"""
   Creates a function that invokes `fun` while it’s called less than `times`.
 
   ## Examples
@@ -38,7 +38,7 @@ defmodule Exdash.Function do
     do_call_nth(times, fun, start_called_server, &Kernel.</2)
   end
 
-  @doc """
+  @doc ~S"""
   Invoke the `fun` a set amount of `times`,
   returning a **list** of the result of each invocation.
 
@@ -55,7 +55,7 @@ defmodule Exdash.Function do
   end
   def call_times(_, _), do: []
 
-  @doc """
+  @doc ~S"""
   Creates a function that is restricted to invoking `fun` once.
   Repeat calls to the function return the value of the first invocation.
 
@@ -80,7 +80,7 @@ defmodule Exdash.Function do
     end
   end
 
-  @doc """
+  @doc ~S"""
   Creates a function that accepts arguments of `fun`
   and either invokes `fun` returning its result,
   if at least arity number of `arguments` have been provided,

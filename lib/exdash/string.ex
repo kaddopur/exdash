@@ -2,7 +2,7 @@ defmodule Exdash.String do
   @moduledoc """
   """
 
-  @doc """
+  @doc ~S"""
   Converts `str` to [camel case](https://en.wikipedia.org/wiki/CamelCase)
 
   ## Examples
@@ -27,7 +27,7 @@ defmodule Exdash.String do
     end)
   end
 
-  @doc """
+  @doc ~S"""
   Converts `str` to
   [kebab case](https://en.wikipedia.org/wiki/Letter_case#Special_case_styles)
 
@@ -46,7 +46,7 @@ defmodule Exdash.String do
     str |> split |> Enum.join("-") |> String.downcase
   end
 
-  @doc """
+  @doc ~S"""
   Converts the first character of string to down case.
 
   ## Examples
@@ -58,7 +58,7 @@ defmodule Exdash.String do
     str |> String.graphemes |> do_transform_first(&String.downcase/1)
   end
 
-  @doc """
+  @doc ~S"""
   Convers the first charachter of string to upper case.
 
   ## Examples
@@ -75,7 +75,7 @@ defmodule Exdash.String do
     [fun.(head)|tail] |> Enum.join("")
   end
 
-  @doc """
+  @doc ~S"""
   Converts `str` to [snake case](https://en.wikipedia.org/wiki/Snake_case)
 
   ## Examples
@@ -94,13 +94,18 @@ defmodule Exdash.String do
     String.split(str, ~r"[^a-zA-Z]", trim: true)
   end
 
-  @doc """
+  @doc ~S"""
   Split `str` into words using `pattern`.
 
   ## Examples
       iex> Exdash.String.words("foo bar baz")
       ["foo", "bar", "baz"]
+
+      iex> Exdash.String.words("foo,bar,baz", ~r{,})
+      ["foo", "bar", "baz"]
   """
-  @spec words(String.t) :: list
-  def words(str), do: ~w"#{str}"
+  @spec words(String.t, Regex.t) :: list
+  def words(str, pattern \\ ~r{\s}) do
+    String.split(str, pattern, trim: true)
+  end
 end

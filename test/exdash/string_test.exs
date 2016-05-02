@@ -123,4 +123,9 @@ defmodule Exdash.StringTest do
     sentence = "foo  bar"
     assert ["foo", "bar"] == Exdash.words(sentence)
   end
+
+  test "words custom pattern" do
+    sentence = "foo,bar"
+    assert ["foo", "bar"] == Exdash.words(sentence, ~r{\,})
+  end
 end
