@@ -158,4 +158,23 @@ defmodule Exdash.Function do
       end
     end
   end
+
+  @doc ~S"""
+  Creates a function that provides `fun`
+  to the `wrapper` function as its first argument.
+
+  ## Examples
+      iex> escape = fn text -> "/#{text}/" end
+      ...> p = Exdash.Function.wrap(escape, fn (fun, value) ->
+      ...>   "<p>#{fun.(value)}</p>"
+      ...> end)
+      ...> p.("some text")
+      "<p>/some text/</p>"
+  """
+  @spec wrap(fun, fun) :: fun
+  def wrap(fun, wrapper) do
+    fn value ->
+      wrapper.(fun, value)
+    end
+  end
 end

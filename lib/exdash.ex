@@ -13,6 +13,7 @@ defmodule Exdash do
   defdelegate once(fun), to: Function, as: :once
   defdelegate curry(fun), to: Function, as: :curry
   defdelegate partial(fun, args), to: Function, as: :partial
+  defdelegate wrap(fun, wrapper), to: Function, as: :wrap
 
   # Collection
   defdelegate map(collection, fun), to: Enum, as: :map

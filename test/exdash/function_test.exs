@@ -152,6 +152,18 @@ defmodule Exdash.FunctionTest do
     assert greet.("Hi", "bob") == partial.("Hi")
   end
 
+  test "wrap" do
+    escape = fn text ->
+      "/#{text}/"
+    end
+
+    p = Exdash.wrap(escape, fn (fun, text) ->
+      "<p>#{fun.(text)}</p>"
+    end)
+
+    assert "<p>/text/</p>" == p.("text")
+  end
+
   defp after_nth(times, server) do
     Exdash.after_nth(times, fn ->
       Server.inc(server)

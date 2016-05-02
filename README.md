@@ -150,7 +150,7 @@ Read the [contribution guide](CONTRIBUTING.md)
 - [ ] spread
 - [ ] throttle
 - [ ] unary
-- [ ] wrap
+- [x] wrap
 
 ### Math
 - [ ] add

@@ -11,6 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Function.curry
 - Function.partial
 - Placeholder to Function.partial
+- Function.wrap
 
 ### Change
 - Function.after_nth doctest
