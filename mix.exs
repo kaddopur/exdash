@@ -50,6 +50,7 @@ defmodule Exdash.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [{:dogma, "~> 0.1", only: [:dev, :test]},
+     {:dialyxir, "~> 0.3", only: [:dev, :test]},
      {:ex_doc, "~> 0.11", only: :dev},
      {:excoveralls, "~> 0.4", only: :test},
      {:excheck, "~> 0.3", only: :test},

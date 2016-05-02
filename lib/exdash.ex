@@ -39,5 +39,4 @@ defmodule Exdash do
   defdelegate upcase_first(str), to: String, as: :upcase_first
   defdelegate snake_case(str), to: String, as: :snake_case
   defdelegate words(str), to: String, as: :words
-  defdelegate words(str, pattern), to: String, as: :words
 end

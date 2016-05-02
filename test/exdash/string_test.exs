@@ -119,11 +119,6 @@ defmodule Exdash.StringTest do
     assert [sentence] == Exdash.words(sentence)
   end
 
-  test "words with custom pattern" do
-    sentence = "foo_bar_baz"
-    assert ["foo", "bar", "baz"] == Exdash.words(sentence, ~r"\_")
-  end
-
   test "words trim" do
     sentence = "foo  bar"
     assert ["foo", "bar"] == Exdash.words(sentence)

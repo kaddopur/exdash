@@ -2,6 +2,8 @@ defmodule Exdash.Function do
   @moduledoc """
   """
 
+  @type f :: (... -> any)
+
   @doc """
   Executes `fun` after it's invoked `times` or more times.
 
@@ -14,6 +16,7 @@ defmodule Exdash.Function do
       ...> Agent.get(pid, &(&1))
       2
   """
+  @spec after_nth(integer, f) :: f
   def after_nth(times, fun) do
     do_call_nth(times, fun, start_called_server, &Kernel.>=/2)
   end
@@ -30,6 +33,7 @@ defmodule Exdash.Function do
       ...> Agent.get(pid, &(&1))
       1
   """
+  @spec before_nth(integer, f) :: f
   def before_nth(times, fun) do
     do_call_nth(times, fun, start_called_server, &Kernel.</2)
   end
@@ -45,6 +49,7 @@ defmodule Exdash.Function do
       iex> Exdash.Function.call_times(0, &(&1))
       []
   """
+  @spec call_times(integer, f) :: list
   def call_times(times, fun) when times > 0 do
     Enum.map(1..times, fn index -> fun.(index) end)
   end
@@ -62,6 +67,7 @@ defmodule Exdash.Function do
       ...> {fun.(), fun.(), Agent.get(pid, &(&1))}
       {0, 0, 1}
   """
+  @spec once(f) :: f
   def once(fun) do
     {:ok, pid} = Agent.start_link(fn ->
       %{"called?" => false, "value" => nil}
@@ -86,6 +92,7 @@ defmodule Exdash.Function do
       ...> add_one.(2)
       3
   """
+  @spec curry(f) :: ((any) -> ((any) -> any))
   def curry(func) do
     {_, arity} = :erlang.fun_info(func, :arity)
     curry(func, arity, [])
@@ -113,6 +120,7 @@ defmodule Exdash.Function do
         ...> pgreet.("Hi")
         "Hi, Ad"
   """
+  @spec partial(f, nonempty_list) :: ((any) -> any)
   def partial(fun, args) do
     fn arg ->
       case Enum.find_index(args, &(&1 == Exdash.Placeholder)) do

@@ -164,6 +164,15 @@ defmodule Exdash.CollectionTest do
     assert default == Exdash.pfind_last([], default, &is_even/1)
   end
 
+  test "pfind/2 no result" do
+    refute Exdash.pfind([], &(&1))
+  end
+
+  test "pfind/2 result" do
+    result = 1
+    assert result == Exdash.pfind([result], &(&1))
+  end
+
   property :pfind_last_defaults do
     for_all numbers in positive_integers do
       [default|_] = Enum.reverse(numbers)

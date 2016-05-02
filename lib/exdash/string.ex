@@ -15,6 +15,7 @@ defmodule Exdash.String do
       iex> Exdash.String.camel_case("__camel__case__")
       "camelCase"
   """
+  @spec camel_case(String.t) :: String.t
   def camel_case(str) do
     str |> split |> do_camel_case
   end
@@ -40,6 +41,7 @@ defmodule Exdash.String do
       iex> Exdash.String.kebab_case("Kebab-Case")
       "kebab-case"
   """
+  @spec kebab_case(String.t) :: String.t
   def kebab_case(str) do
     str |> split |> Enum.join("-") |> String.downcase
   end
@@ -51,6 +53,7 @@ defmodule Exdash.String do
       iex> Exdash.String.downcase_first("HELLO WORLD")
       "hELLO WORLD"
   """
+  @spec downcase_first(String.t) :: String.t
   def downcase_first(str) do
     str |> String.graphemes |> do_transform_first(&String.downcase/1)
   end
@@ -62,6 +65,7 @@ defmodule Exdash.String do
       iex> Exdash.String.upcase_first("hello world")
       "Hello world"
   """
+  @spec upcase_first(String.t) :: String.t
   def upcase_first(str) do
     str |> String.graphemes |> do_transform_first(&String.upcase/1)
   end
@@ -81,6 +85,7 @@ defmodule Exdash.String do
       iex> Exdash.String.snake_case("__FOO__BAR__")
       "foo_bar"
   """
+  @spec snake_case(String.t) :: String.t
   def snake_case(str) do
     str |> split |> Enum.join("_") |> String.downcase
   end
@@ -95,14 +100,7 @@ defmodule Exdash.String do
   ## Examples
       iex> Exdash.String.words("foo bar baz")
       ["foo", "bar", "baz"]
-
-      iex> Exdash.String.words("foo_bar_baz", ~r"\_")
-      ["foo", "bar", "baz"]
   """
-  def words(str, pattern \\ ~r"\s") do
-    case String.split(str, pattern, trim: true) do
-      [""] -> []
-      result -> result
-    end
-  end
+  @spec words(String.t) :: list
+  def words(str), do: ~w"#{str}"
 end
