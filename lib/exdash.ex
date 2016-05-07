@@ -45,4 +45,6 @@ defmodule Exdash do
 
   # Number
   defdelegate in_range?(n, range), to: Number, as: :in_range?
+  defdelegate random(lower, upper), to: Number, as: :random
+  defdelegate random(upper), to: Number, as: :random
 end

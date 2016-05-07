@@ -13,6 +13,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Placeholder to Function.partial
 - Function.wrap
 - Number.in_range?
+- Number.random
 
 ### Change
 - Function.after_nth doctest
