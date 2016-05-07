@@ -5,6 +5,7 @@ defmodule Exdash do
   alias Exdash.Function
   alias Exdash.Collection, as: Enum
   alias Exdash.String
+  alias Exdash.Number
 
   # Function
   defdelegate after_nth(times, fun), to: Function, as: :after_nth
@@ -41,4 +42,7 @@ defmodule Exdash do
   defdelegate snake_case(str), to: String, as: :snake_case
   defdelegate words(str), to: String, as: :words
   defdelegate words(str, pattern), to: String, as: :words
+
+  # Number
+  defdelegate in_range?(n, range), to: Number, as: :in_range?
 end
